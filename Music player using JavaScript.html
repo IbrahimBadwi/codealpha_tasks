@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+    
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .player-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .player-container h2 {
+            margin: 0 0 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .player-container audio {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .controls button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 30%;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .controls button:hover {
+            background-color: #0056b3;
+        }
+
+        .controls button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="player-container">
+        <h2>Music Player</h2>
+        <audio id="audio" src="song.mp3" controls></audio>
+        <div class="controls">
+            <button id="prev">Prev</button>
+            <button id="playPause">Play</button>
+            <button id="next">Next</button>
+        </div>
+        <p id="song-info">Song: My Favorite Song</p>
+    </div>
+
+    <script>
+        
+        const audio = document.getElementById('audio');
+        const playPauseBtn = document.getElementById('playPause');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        const songInfo = document.getElementById('song-info');
+
+        const songs = [
+            { title: "My Favorite Song", src: "song.mp3" },
+            { title: "Another Great Tune", src: "song2.mp3" },
+            { title: "Yet Another Jam", src: "song3.mp3" }
+        ];
+
+        let currentSongIndex = 0;
+
+        function loadSong(song) {
+            audio.src = song.src;
+            songInfo.textContent = `Song: ${song.title}`;
+            playPauseBtn.textContent = 'Play';
+        }
+
+        function playPauseSong() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.textContent = 'Pause';
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = 'Play';
+            }
+        }
+
+        function prevSong() {
+            currentSongIndex--;
+            if (currentSongIndex < 0) {
+                currentSongIndex = songs.length - 1;
+            }
+            loadSong(songs[currentSongIndex]);
+        }
+
+        function nextSong() {
+            currentSongIndex++;
+            if (currentSongIndex > songs.length - 1) {
+                currentSongIndex = 0;
+            }
+            loadSong(songs[currentSongIndex]);
+        }
+
+        playPauseBtn.addEventListener('click', playPauseSong);
+        prevBtn.addEventListener('click', prevSong);
+        nextBtn.addEventListener('click', nextSong);
+
+        
+        loadSong(songs[currentSongIndex]);
+    </script>
+</body>
+
+</html>
